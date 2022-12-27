@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+    <title>Document</title>
+    <style>
+      :root {
+        --text-line-color: #fff;
+        --text-dark-color: #000;
+      }
+
+      .dark {
+        background-color: rgba(0, 0, 0, 0.678);
+        color: var(--text-line-color);
+        color: #fff !important;
+      }
+
+      .light {
+        background-color: white;
+        color: var(--text-dark-color);
+      }
+
+      .contact-div {
+        background-color: red;
+        margin-top: 50px;
+        min-width: 300px;
+        min-height: 200px;
+      }
+
+      .list-item {
+        margin-left: 20px;
+        margin-top: 15px;
+      }
+
+      .mode {
+        margin: 0 auto;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+      }
+
+      .card-body {
+        color: var(--text-dark-color);
+
+      }
+
+      #books {
+        max-width: 20px;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .js-search {
+        max-width: 200px;
+      }
+
+      .js-select {
+        max-width: 100px;
+      }
+@media screen and (max-width:768px) {
+  .btn-info{
+font-size: 12px;
+  }
+  .header{
+    flex-direction: column;
+  }
+  .books{
+    width: 100% !important;
+    margin: 0 auto !important;
+    /* text-align: center; */
+  }
+  
+}
+.bookmark{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+      .btn-group {
+        max-width: fit-content;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mx-auto ">
+    
+      <div class="d-flex justify-content-between header align-items-center ">
+        <h1 id="books" class="  mt-1 gap-1 ">BOOOKS</h1>
+     <div class="d-flex gap-3">
+      <button class="mode "><img src="./img/moon-svgrepo-com.svg" alt="img" width="40"></button>
+      <input class="form-control  js-search" type="text" placeholder="Search.. ">
+      <select class="js-select form-select">
+        <option value="All" disabled>All</option>
+        <option value="A-Z">A-Z</option>
+        <option value="Z-A">Z-A</option>
+      </select>
+     </div>
+      </div>
+
+      <div class="hero_box">
+
+      </div>
+      <div class="text-center mt-3 mb-3">
+        <div class="btn-group " role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-info sortName">Sort by name</button>
+          <button type="button" class="btn btn-info sortYear">Sort by Year</button>
+          <button type="button" class="btn btn-info sortPage">Sort by Page</button>
+          <button type="button" class="btn btn-info sortLanguage">Sort by Language
+          </button>
+        </div>
+      </div>
+
+      <div class="row gap-auto cards flex-wrap justify-content-center" id="card-box">
+      </div>
+    </div>
+
+    <script src="./js/books.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+
+</html>
