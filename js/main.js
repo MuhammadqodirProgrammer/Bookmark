@@ -3,39 +3,69 @@ const selectEl2 = document.querySelector(".js-select");
 const inputEl = document.querySelector("input")
 const elSearch = document.querySelector(".js-search")
 const elBtngroup =document.querySelector(".btn-group")
-// const elBookmark =document.querySelector(".bookmark")
+const elBookmark =document.querySelector(".bookmark")
 
-
+const elList =document.querySelector(".list-group")
 
 
 function bookrender(array) {
   cardel.innerHTML =""
-  let cards = "";
-
+  
   array.forEach((item)=>{
-    cards += `  <div class="card col-sm-12 col-lg-3 col-md-4 col-sm-12 col-12   mx-4
-     text-center  shadow-lg p-2  rounded  rounded-4  mt-2 mb-4 " >
-     <img src="./img/bookmark-regular.svg" alt="bookmark" width="20" class="bookmark">
-    <img src="${item.imageLink}" class="card-img-top" alt="images">
-    
-    <div class="card-body">
-    <h5 class="card-title">${item.title}</h5>
-  <h5 class="card-title">${item.language}</h5>
-  <h5 class="card-title">${item.country}</h5>
-  <p class="card-text"><span> year: ${item.year}</span><br><span> pages: ${item.pages}</span></p>
-  <h6 class="card-title">author:${item.author}</h6>
-  <button type="button" class="btn btn-info mt-1"><a href="${item.link}">More... </a></button>
-</div>
-</div> `;
+    const cardHead =document.createElement('div')
+    const cardImg =document.createElement('img')
+    const cardBody =document.createElement('div')
+    const cardTitle =document.createElement('h5')
+    const cardLanguage =document.createElement('p')
+    const cardAuthor=document.createElement('h5')
+    const cardLinkbtn =document.createElement('button')
+    const cardLinka =document.createElement('a')
+    const elBookmark =document.createElement("button")
+
+
+
+    cardImg.setAttribute("class" , "card-img-top")
+    cardBody.setAttribute("class" , "card-body")
+    cardTitle.setAttribute("class" , "card-title")
+    cardLanguage.setAttribute("class" , "card-title")
+    cardAuthor.setAttribute("class" , "card-title")
+    cardLinkbtn.setAttribute("class" , "btn btn-info me-2")
+     
+    cardel.appendChild(cardHead)
+    cardHead.appendChild(cardImg)
+    cardHead.appendChild(cardBody)
+    cardBody.appendChild(cardTitle)
+    cardBody.appendChild(cardLanguage)
+    cardBody.appendChild(cardAuthor)
+    cardBody.appendChild(cardLinkbtn)
+    cardBody.appendChild(elBookmark)
+    cardLinkbtn.appendChild(cardLinka)
+
+
+    cardImg.setAttribute("src" ,  `${item.imageLink}` )
+    cardLinka.setAttribute("href" ,  `${item.link}` )
+    elBookmark.setAttribute('class','btn btn-primary bookmarkbtn ')
+cardTitle.innerHTML =item.title
+cardLanguage.innerHTML =item.language
+cardAuthor.innerHTML =item.author
+cardTitle.innerHTML =item.title
+cardLinka.innerHTML ="More..."
+elBookmark.innerHTML ="Bookmark ❤"
+
+cardHead.setAttribute("class","card col-sm-12 col-lg-3 col-md-4 col-sm-12 col-12   mx-4 text-center  shadow-lg p-2  rounded  rounded-4  mt-2 mb-4")
+   
+
+    elBookmark.dataset.bookmarkId =item.id
   })
-
-  cardel.innerHTML = cards;
-
+// const elCardbody =document.querySelector(".card-body")
+  // cardel.innerHTML = cards;
 }
 bookrender(books)
 
 
 let newbooks =[]
+// ==========================================
+// SEARCH ===================================>
 
 elSearch.addEventListener("input",function(evnt){
   evnt.preventDefault();
@@ -51,7 +81,8 @@ elSearch.addEventListener("input",function(evnt){
   newbooks = []
   
 })
-
+// ==========================================
+// SORT NAME,PAGES,LANGUAGE,YEAR ===================>
 elBtngroup.addEventListener("click",(evnt)=>{
   evnt.preventDefault()
 
@@ -77,16 +108,8 @@ elBtngroup.addEventListener("click",(evnt)=>{
     }))
   };
 })
-
-
-
-
-
-
-
-
-
-
+// ==========================================
+// SORT A-Z,Z-A ===================================>
 selectEl2.addEventListener("change", (evnt) => {
   evnt.preventDefault();
   console.log(selectEl2.value);
@@ -100,6 +123,7 @@ selectEl2.addEventListener("change", (evnt) => {
   if(selectEl2.value =="Z-A"){
     const sortBook =books.sort((a,b)=>{
       return b.title.charCodeAt(0) - a.title.charCodeAt(0)
+
     })
     bookrender(sortBook)
   }
@@ -109,40 +133,33 @@ selectEl2.addEventListener("change", (evnt) => {
   }
 
 })
+// =========================================
+// BOOKMARK ================================>
 
-// let optionarr = [];
-// films.forEach((val) => {
-//   optionarr.push(val.title)
+const setBooks =new Set()
+cardel.addEventListener("click",function(evnt){
+  evnt.preventDefault()
+  if(evnt.target.matches(".bookmarkbtn")){
+    const bookmarkId =evnt.target.dataset.bookmarkId
+    elList.innerHTML= ""
+    const findedBooks =books.find((el)=>{
+      const elItem =document.createElement("li")
+      elList.appendChild(elItem)
+      elItem.textContent =el.title
+      return el.id == bookmarkId;
+    })
+    setBooks.add(findedBooks);
 
-// })
+    console.log(setBooks);
+    window.localStorage.setItem("setBooks",JSON.stringify(setBooks))
+    const valBooks =  JSON.parse(window.localStorage.getItem("setBooks"))
+    console.log(valBooks);
+  };
+  
+})
 
-// const filled = new Set(optionarr)
-
-// for (i of filled) {
-//   // console.log(i);
-//   const options = document.createElement("option");
-//   selectEl.appendChild(options);
-//   options.textContent = i;
-//   options.setAttribute("value", i)
-// }
-
-// let newarr2 = []
-
-// formEl.addEventListener("input", (evt) => {
-//   evt.preventDefault()
-//   cardel.innerHTML = ""
-//   let elinputval = inputEl.value.toLocaleLowerCase();
-//   films.forEach((el) => {
-//     if (el.title.toLocaleLowerCase().includes(elinputval)) {
-//       newarr2.push(el)
-//     }
-//   });
-//   domgachiqarator(newarr2, cardel)
-//   newarr2 = []
-// })
-
-
-
+// =====-========================
+// DARK-MODE ====================>
 
 let modeBtn =document.querySelector('.mode')
 
@@ -152,9 +169,7 @@ modeBtn.addEventListener("click", (evnt)=>{
   evnt.preventDefault()
 let newBg =theme ? "dark":"light"
 console.log(newBg);
-console.log(theme);
 theme =!theme 
-console.log(theme);
 localStorage.setItem("theme",newBg)
 ChageMode()
 })
